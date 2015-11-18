@@ -16,7 +16,7 @@
 		<div class="page-header">
 			<h1>BBS <small>ログイン</small></h1>
 		</div>
-		<form>
+		<form action="POST" action="Login">
 			<div class="form-group">
 				<label for="InputEmail">Email</label>
 				<input type="email" class="form-control" id="InputEmail" placeholder="example@example.com">
