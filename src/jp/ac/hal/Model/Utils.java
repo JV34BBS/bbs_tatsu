@@ -33,7 +33,7 @@ public class Utils {
 	 * @return
 	 */
 	public static String registValidator(String userName, String passwd, String email) {
-		String err = "";
+		String err = null;
 		
 		if (userName == null || email == null || passwd == null || userName.isEmpty() || email.isEmpty() || passwd.isEmpty()) {
 			return err = "未入力項目があります";
@@ -57,7 +57,7 @@ public class Utils {
 		String ptnStr ="[\\w\\.\\-]+@(?:[\\w\\-]+\\.)+[\\w\\-]+";
 		Pattern ptn = Pattern.compile(ptnStr);
 		Matcher mc = ptn.matcher(email);
-		ret = (mc.matches()) ? true : false;
+		ret = (mc.matches()) ? false : true;
 		
 		return ret;
 	}

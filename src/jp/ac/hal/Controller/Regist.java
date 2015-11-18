@@ -68,21 +68,38 @@ public class Regist extends HttpServlet {
 		user.setEmail(email);
 		user.setPasswd(pass);
 		
-		try {
-			Dao.getInstance().execRegist(user);
+		//validation呼び出し
+		Utils utils = new Utils();
+		@SuppressWarnings("static-access")
+		String err = utils.registValidator(name, pass, email);
+		
+		
+		if (err == null) {
 			
-			//登録完了msgをresultへ
-			msg = "登録完了しました。";
-			request.setAttribute("msg", msg);
-			request.getRequestDispatcher("result.jsp").forward(request, response);
-			
-		} catch (SQLException | NamingException e) {
-			e.printStackTrace();
-			
-			msg = "ユーザ名が重複しています。";
-			request.setAttribute("msg", msg);
-			request.getRequestDispatcher("regist.jsp").forward(request, response);
+			try {
+				Dao.getInstance().execRegist(user);
+				
+				//登録完了msgをresultへ
+				msg = "登録完了しました。";
+				request.setAttribute("msg", msg);
+				request.getRequestDispatcher("result.jsp").forward(request, response);
+				
+			} catch (SQLException | NamingException e) {
+				e.printStackTrace();
+				
+				msg = "ユーザ名が重複しています。";
+				request.setAttribute("msg", msg);
+				request.getRequestDispatcher("regist.jsp").forward(request, response);
+			}	
 		}
+		else {
+			
+			//utilsのエラーを登録画面に飛ばす
+			request.setAttribute("msg", err);
+			request.getRequestDispatcher("regist.jsp").forward(request, response);
+			
+		}
+		
 	}
 
 }

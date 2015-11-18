@@ -16,6 +16,14 @@
 		<div class="page-header">
 			<h1>BBS <small>新規登録</small></h1>
 		</div>
+		<%
+			String msg = (String)request.getAttribute("msg");
+			if(msg != null){
+		%>
+				<h3><%= msg %></h3>
+		<% 
+			}
+		%>
 		<form action="Regist" method="POST">
 			<div class="form-group">
 				<label for="InputPassword">ユーザ名</label>
