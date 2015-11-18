@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.NamingException;
 
@@ -169,5 +171,29 @@ public class Dao {
 		}
 		
 		return rowNum;
+	}
+	
+	public List<Comment> fetchAllComment() throws ClassNotFoundException, SQLException {
+		
+		String sql = "select * from t_comment";
+		List<Comment> commentList = new ArrayList<Comment>();
+		
+		try (
+				Connection conn = this.getConnection();
+				PreparedStatement ps = conn.prepareStatement(sql);
+			) {
+			try (ResultSet rs = ps.executeQuery()) {
+				while (rs.next()) {
+					Comment comment = new Comment();
+					comment.setId(rs.getInt("id"));
+					comment.setUserName(rs.getString("user_name"));
+					comment.setComment(rs.getString("comment"));
+					comment.setCreatedAt(rs.getString("created_at"));
+					commentList.add(comment);
+				}
+			}
+		}
+		
+		return commentList;
 	}
 }
