@@ -74,7 +74,7 @@ public class Regist extends HttpServlet {
 		String err = utils.registValidator(name, pass, email);
 		
 		
-		if (err == null) {
+		if (err == null || err.isEmpty()) {
 			
 			try {
 				Dao.getInstance().execRegist(user);
@@ -87,7 +87,7 @@ public class Regist extends HttpServlet {
 			} catch (SQLException | NamingException e) {
 				e.printStackTrace();
 				
-				msg = "ユーザ名が重複しています。";
+				msg = "ユーザ名かEmailアドレスが重複しています。";
 				request.setAttribute("msg", msg);
 				request.getRequestDispatcher("regist.jsp").forward(request, response);
 			}	

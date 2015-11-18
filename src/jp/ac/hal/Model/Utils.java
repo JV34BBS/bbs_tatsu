@@ -12,7 +12,7 @@ public class Utils {
 	 * @return
 	 */
 	public static String loginValidator(String email, String passwd) {
-		String err = "";
+		String err = null;
 		
 		if (email == null || passwd == null || email.isEmpty() || passwd.isEmpty()) {
 			return err = "未入力項目があります";

@@ -16,14 +16,22 @@
 		<div class="page-header">
 			<h1>BBS <small>ログイン</small></h1>
 		</div>
-		<form>
+		<%
+			String msg = (String)request.getAttribute("msg");
+			if(msg != null){
+		%>
+				<h3><%= msg %></h3>
+		<% 
+			}
+		%>
+		<form action="Login" method="POST">
 			<div class="form-group">
 				<label for="InputEmail">Email</label>
-				<input type="email" class="form-control" id="InputEmail" placeholder="example@example.com">
+				<input type="email" class="form-control" id="InputEmail" placeholder="example@example.com" name="email">
 			</div>
 			<div class="form-group">
 				<label for="InputPassword">パスワード</label>
-				<input type="password" class="form-control" id="InputPassword">
+				<input type="password" class="form-control" id="InputPassword" name="pass">
 			</div>
 			<button type="submit" class="btn btn-primary">ログイン</button>
 		</form>
