@@ -16,16 +16,20 @@
 		<div class="page-header">
 			<h1>BBS <small>新規登録</small></h1>
 		</div>
-		<form>
+		<form action="Regist" method="POST">
+			<div class="form-group">
+				<label for="InputPassword">ユーザ名</label>
+				<input type="text" class="form-control" id="InputPassword" name="name">
+			</div>
 			<div class="form-group">
 				<label for="InputEmail">Email</label>
-				<input type="email" class="form-control" id="InputEmail" placeholder="example@example.com">
+				<input type="email" class="form-control" id="InputEmail" placeholder="example@example.com" name="email">
 			</div>
 			<div class="form-group">
 				<label for="InputPassword">パスワード</label>
-				<input type="password" class="form-control" id="InputPassword">
+				<input type="password" class="form-control" id="InputPassword" name="pass">
 			</div>
-			<button type="submit" class="btn btn-primary">ログイン</button>
+			<button type="submit" class="btn btn-primary">登録</button>
 		</form>
 	</div>
 	<footer></footer>

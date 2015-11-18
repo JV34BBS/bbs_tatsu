@@ -2,6 +2,7 @@ package jp.ac.hal.Controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Set;
 
 import javax.naming.NamingException;
 import javax.servlet.ServletException;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import sun.rmi.server.Dispatcher;
 import jp.ac.hal.Model.*;
 
 /**
@@ -32,6 +34,7 @@ public class Regist extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		/*
 		User user = new User();
 		user.setUserName("a");
 		user.setEmail("a@a");
@@ -42,6 +45,7 @@ public class Regist extends HttpServlet {
 			e.printStackTrace();
 			System.out.println("重複");
 		}
+		*/
 	}
 
 	/**
@@ -49,6 +53,36 @@ public class Regist extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		
+		request.setCharacterEncoding("utf-8");
+		
+		//登録内容取得
+		String name = request.getParameter("name");
+		String email = request.getParameter("email");
+		String pass = request.getParameter("pass");
+		
+		String msg = "";
+		
+		User user = new User();
+		user.setUserName(name);
+		user.setEmail(email);
+		user.setPasswd(pass);
+		
+		try {
+			Dao.getInstance().execRegist(user);
+			
+			//登録完了msgをresultへ
+			msg = "登録完了しました。";
+			request.setAttribute("msg", msg);
+			request.getRequestDispatcher("result.jsp").forward(request, response);
+			
+		} catch (SQLException | NamingException e) {
+			e.printStackTrace();
+			
+			msg = "ユーザ名が重複しています。";
+			request.setAttribute("msg", msg);
+			request.getRequestDispatcher("regist.jsp").forward(request, response);
+		}
 	}
 
 }
