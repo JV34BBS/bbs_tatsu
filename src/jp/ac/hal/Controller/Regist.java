@@ -1,11 +1,16 @@
 package jp.ac.hal.Controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
+
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import jp.ac.hal.Model.*;
 
 /**
  * Servlet implementation class Regist
@@ -27,6 +32,16 @@ public class Regist extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		User user = new User();
+		user.setUserName("a");
+		user.setEmail("a@a");
+		user.setPasswd("bbbb");
+		try {
+			Dao.getInstance().execRegist(user);
+		} catch (SQLException | NamingException e) {
+			e.printStackTrace();
+			System.out.println("重複");
+		}
 	}
 
 	/**

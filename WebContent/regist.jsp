@@ -5,7 +5,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>BBS | ログイン</title>
+	<title>BBS | 新規登録</title>
 	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
@@ -14,7 +14,7 @@
 	<header></header>
 	<div class="container">
 		<div class="page-header">
-			<h1>BBS <small>ログイン</small></h1>
+			<h1>BBS <small>新規登録</small></h1>
 		</div>
 		<form>
 			<div class="form-group">
@@ -27,7 +27,6 @@
 			</div>
 			<button type="submit" class="btn btn-primary">ログイン</button>
 		</form>
-		<a class="btn btn-link" href="regist.jsp" role="button">新規登録はこちら</a>
 	</div>
 	<footer></footer>
 </body>
