@@ -4,14 +4,13 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 import javax.naming.NamingException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import org.apache.catalina.Session;
 
 import jp.ac.hal.Model.Dao;
 import jp.ac.hal.Model.User;
@@ -37,6 +36,7 @@ public class Login extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		System.out.println(Utils.loginValidator("reerere@afaga.smo", "aaaa"));
 	}
 
 	/**
@@ -58,7 +58,6 @@ public class Login extends HttpServlet {
 		
 		String err = Utils.loginValidator(email, pass);
 		
-		
 		if (err == null || err.isEmpty()) {
 			//セッションオブジェクト生成
 			HttpSession session = request.getSession();
@@ -69,24 +68,23 @@ public class Login extends HttpServlet {
 				if (logUser != null) {
 					//ユーザ情報をセッションに格納
 					session.setAttribute("logUser", logUser);
+					session.setMaxInactiveInterval(18000);
 					request.getRequestDispatcher("bbs.jsp").forward(request, response);
 				}
 				else {
-					msg = "ログイン失敗しました";
+					msg = "ログインに失敗しました";
 					request.setAttribute("msg", msg);
 					request.getRequestDispatcher("login.jsp").forward(request, response);
 				}
 				
 			} catch (SQLException | NamingException | ClassNotFoundException e) {
 				e.printStackTrace();
-				
 			}	
 		}
 		else {
 			//utilsのエラーを登録画面に飛ばす
 			request.setAttribute("msg", err);
 			request.getRequestDispatcher("login.jsp").forward(request, response);
-			
 		}
 	}
 

@@ -20,7 +20,7 @@
 			String msg = (String)request.getAttribute("msg");
 			if(msg != null){
 		%>
-				<h3><%= msg %></h3>
+		<div class="alert alert-danger" role="alert"><%=msg %></div>
 		<% 
 			}
 		%>
