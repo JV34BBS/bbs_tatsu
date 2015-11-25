@@ -103,13 +103,10 @@ public class Dao<Users> {
 	 * @throws SQLException
 	 */
 	public User userLogin(User user) throws SQLException, ClassNotFoundException {
-<<<<<<< HEAD
 
-		String sql = "select user_name, mail, passwd from t_user where mail = ? && passwd = ?";
-=======
-		
+
 		String sql = "select user_name, mail, passwd, admin from t_user where mail = ? && passwd = ?";
->>>>>>> 2da7db00eb0b75d37920104d01e964a667d9869a
+
 		User loginUser = new User();
 
 		try (
@@ -180,14 +177,12 @@ public class Dao<Users> {
 
 		return rowNum;
 	}
-<<<<<<< HEAD
 
-=======
-	
-	
+
+
 	//選択削除
 	/**
-	 * 
+	 *
 	 * @param deleteNo
 	 * @return ret
 	 * @throws SQLException
@@ -200,20 +195,19 @@ public class Dao<Users> {
 		try(
 				Connection conn = this.getConnection();
 				PreparedStatement ps = conn.prepareStatement(sql);
-		){	
-			
+		){
+
 			for(int i: deleteNo){
 				ps.setInt(1, i);
 				ps.executeUpdate();
 			}
 			ret = true;
 		}
-		
+
 		return ret;
 	}
-	
-	
->>>>>>> 2da7db00eb0b75d37920104d01e964a667d9869a
+
+
 	/**
 	 * コメント編集
 	 * @param comment
