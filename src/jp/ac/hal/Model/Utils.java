@@ -3,7 +3,7 @@ package jp.ac.hal.Model;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.tomcat.util.codec.binary.StringUtils;
+//import org.apache.tomcat.util.codec.binary.StringUtils;
 
 public class Utils {
 	
