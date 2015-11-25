@@ -198,7 +198,17 @@ public class Dao<Users> {
 
 		return rowNum;
 	}
+<<<<<<< HEAD
 
+=======
+	
+	/**
+	 * コメント全件取得
+	 * @return List<Comment>
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+>>>>>>> 277824757152582ff4dce60d11a8bae2b4aefc09
 	public List<Comment> fetchAllComment() throws ClassNotFoundException, SQLException {
 
 		String sql = "select * from t_comment";

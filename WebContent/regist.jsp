@@ -9,6 +9,7 @@
 	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
+	<script src="js/validator.js"></script>
 </head>
 <body>
 	<header></header>
@@ -20,11 +21,11 @@
 			String msg = (String)request.getAttribute("msg");
 			if(msg != null){
 		%>
-				<h3><%= msg %></h3>
+		<div class="alert alert-danger" role="alert"><%=msg %></div>
 		<% 
 			}
 		%>
-		<form action="Regist" method="POST">
+		<form action="Regist" method="POST" data-toggle="validator" role="form">
 			<div class="form-group">
 				<label for="InputPassword">ユーザ名</label>
 				<input type="text" class="form-control" id="InputPassword" name="name">

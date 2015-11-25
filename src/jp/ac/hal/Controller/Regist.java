@@ -53,7 +53,10 @@ public class Regist extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+<<<<<<< HEAD
 
+=======
+>>>>>>> 277824757152582ff4dce60d11a8bae2b4aefc09
 		request.setCharacterEncoding("utf-8");
 
 		//登録内容取得
@@ -72,10 +75,17 @@ public class Regist extends HttpServlet {
 		Utils utils = new Utils();
 		@SuppressWarnings("static-access")
 		String err = utils.registValidator(name, pass, email);
+<<<<<<< HEAD
 
 
 		if (err == null) {
 
+=======
+		
+		
+		if (err == null || err.isEmpty()) {
+			
+>>>>>>> 277824757152582ff4dce60d11a8bae2b4aefc09
 			try {
 				Dao.getInstance().execRegist(user);
 
@@ -86,8 +96,13 @@ public class Regist extends HttpServlet {
 
 			} catch (SQLException | NamingException e) {
 				e.printStackTrace();
+<<<<<<< HEAD
 
 				msg = "ユーザ名が重複しています。";
+=======
+				
+				msg = "ユーザ名かEmailアドレスが重複しています。";
+>>>>>>> 277824757152582ff4dce60d11a8bae2b4aefc09
 				request.setAttribute("msg", msg);
 				request.getRequestDispatcher("regist.jsp").forward(request, response);
 			}
