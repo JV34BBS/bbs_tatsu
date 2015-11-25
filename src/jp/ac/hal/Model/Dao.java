@@ -78,7 +78,7 @@ public class Dao<Users> {
 	 * @throws SQLException
 	 */
 
-	public int Delete(User user) throws SQLException {
+	public int Delete(String user) throws SQLException {
 
 		String sql = "delete from t_user where user_name = ?";
 		int rowNum = 0;
@@ -87,7 +87,7 @@ public class Dao<Users> {
 				Connection conn = this.getConnection();
 				PreparedStatement ps = conn.prepareStatement(sql);
 			) {
-			ps.setString(1, user.getUserName());
+			ps.setString(1, user);
 			rowNum = ps.executeUpdate();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -198,17 +198,14 @@ public class Dao<Users> {
 
 		return rowNum;
 	}
-<<<<<<< HEAD
 
-=======
-	
+
 	/**
 	 * コメント全件取得
 	 * @return List<Comment>
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
->>>>>>> 277824757152582ff4dce60d11a8bae2b4aefc09
 	public List<Comment> fetchAllComment() throws ClassNotFoundException, SQLException {
 
 		String sql = "select * from t_comment";

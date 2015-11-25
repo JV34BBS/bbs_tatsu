@@ -1,12 +1,15 @@
 package jp.ac.hal.Controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import jp.ac.hal.Model.Dao;
 
 /**
  * Servlet implementation class Admin
@@ -35,7 +38,23 @@ public class Admin extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.getParameter("")
+		request.setCharacterEncoding("UTF-8");
+		String user = request.getParameter("user");
+
+		@SuppressWarnings("rawtypes")
+		Dao dao = new Dao();
+		try {
+			int i = dao.Delete(user);
+			String msg = "ユーザを削除しました。";
+			request.setAttribute("msg", msg);
+		} catch (SQLException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+			String msg = "削除できませんでした。";
+			request.setAttribute("msg", msg);
+		}
+
+		request.getRequestDispatcher("admin.jsp").forward(request, response);
 	}
 
 }
