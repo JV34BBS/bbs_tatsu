@@ -1,35 +1,35 @@
 package jp.ac.hal.Model;
 
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.naming.NamingException;
 
-public class Dao {
-	
+public class Dao<Users> {
+
 	public static Dao instance;
 	private final String URL =
 			"jdbc:mysql:///bbs?user=jv34&password=jv34&useUnicode=true&charactorEncoding=utf8";
-	
+
 	/**
 	 * シングルトン
 	 * @return Dao
 	 * @throws NamingException
 	 */
 	public static Dao getInstance() throws NamingException {
-		
+
 		if (instance == null) {
 			instance = new Dao();
 		}
-		
+
 		return instance;
 	}
-	
+
 	/**
 	 * コネクション
 	 * @return Connection
@@ -37,13 +37,13 @@ public class Dao {
 	 * @throws ClassNotFoundException
 	 */
 	private Connection getConnection() throws SQLException, ClassNotFoundException {
-		
+
 		Class.forName("com.mysql.jdbc.Driver");
 		Connection conn = DriverManager.getConnection(URL);
-		
+
 		return conn;
 	}
-	
+
 	/**
 	 * ユーザ登録
 	 * @param user
@@ -51,10 +51,10 @@ public class Dao {
 	 * @throws SQLException
 	 */
 	public int execRegist(User user) throws SQLException {
-		
+
 		String sql = "insert into t_user(user_name, mail, passwd) values(?, ?, ?)";
 		int rowNum = 0;
-		
+
 		try (
 				Connection conn = this.getConnection();
 				PreparedStatement ps = conn.prepareStatement(sql);
@@ -66,10 +66,36 @@ public class Dao {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		
+
 		return rowNum;
 	}
-	
+
+
+	/**
+	 * ユーザ削除
+	 * @param user
+	 * @return int
+	 * @throws SQLException
+	 */
+
+	public int Delete(User user) throws SQLException {
+
+		String sql = "delete from t_user where user_name = ?";
+		int rowNum = 0;
+
+		try (
+				Connection conn = this.getConnection();
+				PreparedStatement ps = conn.prepareStatement(sql);
+			) {
+			ps.setString(1, user.getUserName());
+			rowNum = ps.executeUpdate();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		return rowNum;
+	}
+
 	/**
 	 * ログイン
 	 * @param user
@@ -77,18 +103,18 @@ public class Dao {
 	 * @throws SQLException
 	 */
 	public User userLogin(User user) throws SQLException, ClassNotFoundException {
-		
+
 		String sql = "select user_name, mail, passwd from t_user where mail = ? && passwd = ?";
 		User loginUser = new User();
-		
+
 		try (
 				Connection conn = this.getConnection();
 				PreparedStatement ps = conn.prepareStatement(sql);
 			) {
 			ps.setString(1, user.getEmail());
 			ps.setString(2, user.getPasswd());
-			
-			try (ResultSet rs = ps.executeQuery();) { 
+
+			try (ResultSet rs = ps.executeQuery();) {
 				if (rs.next()) {
 					loginUser.setUserName(rs.getString("user_name"));
 					loginUser.setPasswd(rs.getString("passwd"));
@@ -98,10 +124,10 @@ public class Dao {
 				}
 			}
 		}
-		
+
 		return loginUser;
 	}
-	
+
 	/**
 	 * コメント挿入
 	 * @param comment
@@ -110,10 +136,10 @@ public class Dao {
 	 * @throws ClassNotFoundException
 	 */
 	public int insertComment(Comment comment) throws SQLException, ClassNotFoundException {
-		
+
 		String sql = "insert into t_comment(user_name, comment) values(?, ?)";
 		int rowNum;
-		
+
 		try (
 				Connection conn = this.getConnection();
 				PreparedStatement ps = conn.prepareStatement(sql);
@@ -122,10 +148,10 @@ public class Dao {
 			ps.setString(2, comment.getComment());
 			rowNum = ps.executeUpdate();
 		}
-		
+
 		return rowNum;
 	}
-	
+
 	/**
 	 * コメント削除
 	 * @param id
@@ -134,10 +160,10 @@ public class Dao {
 	 * @throws ClassNotFoundException
 	 */
 	public int deleteComment(int id) throws SQLException, ClassNotFoundException {
-		
+
 		String sql = "delete from t_comment where id = ?";
 		int rowNum;
-		
+
 		try (
 				Connection conn = this.getConnection();
 				PreparedStatement ps = conn.prepareStatement(sql);
@@ -145,10 +171,10 @@ public class Dao {
 			ps.setInt(1, id);
 			rowNum = ps.executeUpdate();
 		}
-		
+
 		return rowNum;
 	}
-	
+
 	/**
 	 * コメント編集
 	 * @param comment
@@ -157,10 +183,10 @@ public class Dao {
 	 * @throws SQLException
 	 */
 	public int editComment(Comment comment) throws ClassNotFoundException, SQLException {
-		
+
 		String sql = "update t_comment set comment = ? where id = ?";
 		int rowNum;
-		
+
 		try (
 				Connection conn = this.getConnection();
 				PreparedStatement ps = conn.prepareStatement(sql);
@@ -169,15 +195,15 @@ public class Dao {
 			ps.setInt(2, comment.getId());
 			rowNum = ps.executeUpdate();
 		}
-		
+
 		return rowNum;
 	}
-	
+
 	public List<Comment> fetchAllComment() throws ClassNotFoundException, SQLException {
-		
+
 		String sql = "select * from t_comment";
 		List<Comment> commentList = new ArrayList<Comment>();
-		
+
 		try (
 				Connection conn = this.getConnection();
 				PreparedStatement ps = conn.prepareStatement(sql);
@@ -193,7 +219,30 @@ public class Dao {
 				}
 			}
 		}
-		
+
 		return commentList;
 	}
+
+	//ユーザ一覧
+	public List<User> fetchAllUser() throws ClassNotFoundException, SQLException {
+
+		String sql = "select * from t_user";
+		List<User> UserList = new ArrayList<User>();
+
+		try (
+				Connection conn = this.getConnection();
+				PreparedStatement ps = conn.prepareStatement(sql);
+			) {
+			try (ResultSet rs = ps.executeQuery()) {
+				while (rs.next()) {
+					User user = new User();
+					user.setUserName(rs.getString("user_name"));
+					UserList.add(user);
+				}
+			}
+		}
+
+		return UserList;
+	}
+
 }
