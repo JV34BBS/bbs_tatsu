@@ -69,7 +69,13 @@ public class Login extends HttpServlet {
 					//ユーザ情報をセッションに格納
 					session.setAttribute("logUser", logUser);
 					session.setMaxInactiveInterval(18000);
-					request.getRequestDispatcher("bbs.jsp").forward(request, response);
+					if(logUser.getAdmin() == 0){
+						request.getRequestDispatcher("admin_home.jsp").forward(request, response);
+					}
+					else {
+						request.getRequestDispatcher("bbs.jsp").forward(request, response);
+					}
+					
 				}
 				else {
 					msg = "ログインに失敗しました";
