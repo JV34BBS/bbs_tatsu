@@ -15,9 +15,9 @@
 	<link href="css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-
-<div class="page-header">
-			<h1>ユーザ管理</h1>
+<div class="container">
+	<div class="page-header">
+		<h1>BBS <small>ユーザ管理</small></h1>
 		<div class="page-header">
 			<div style="text-align: right;">
 				<small>ログインユーザ名 : <%=((User)session.getAttribute("logUser")).getUserName()%></small>
@@ -37,16 +37,23 @@
 		%>
 </div>
 		<% for (int i = 0 ; i < uList.size() ; i++) { %>
-		<div class="panel panel-body">
-			<div class="panel-heading">
-				<form action="Admin" method = "post">
-				<span style="padding: 0 20px;">ユーザ名 : <%=uList.get(i).getUserName() %></span>
-				<input type="hidden" name="user" value="<%=uList.get(i).getUserName() %>"/>
-				<input type="submit" value="削除" class="btn btn-primary btn-xm"/>
-				</form>
-			</div>
+		<div class="panel-heading">
+			<form action="Admin" method = "post">
+				<div class ="row">
+					<div class ="col-xs-1">
+						ユーザ名 :
+					</div>
+					<div class="col-xs-3">
+						<%=uList.get(i).getUserName() %>
+					</div>
+					<div class="col-xs-4">
+						<input type="hidden" name="user" value="<%=uList.get(i).getUserName() %>"/>
+						<input type="submit" value="削除" class="btn btn-primary btn-xm"/>
+					</div>
+				</div>
+			</form>
 		</div>
 		<% } %>
-
+	</div>
 </body>
 </html>

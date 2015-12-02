@@ -22,7 +22,6 @@ public class Dao<Users> {
 	 * @throws NamingException
 	 */
 	public static Dao getInstance() throws NamingException {
-
 		if (instance == null) {
 			instance = new Dao();
 		}
@@ -37,7 +36,6 @@ public class Dao<Users> {
 	 * @throws ClassNotFoundException
 	 */
 	private Connection getConnection() throws SQLException, ClassNotFoundException {
-
 		Class.forName("com.mysql.jdbc.Driver");
 		Connection conn = DriverManager.getConnection(URL);
 
@@ -51,10 +49,8 @@ public class Dao<Users> {
 	 * @throws SQLException
 	 */
 	public int execRegist(User user) throws SQLException {
-
 		String sql = "insert into t_user(user_name, mail, passwd) values(?, ?, ?)";
 		int rowNum = 0;
-
 		try (
 				Connection conn = this.getConnection();
 				PreparedStatement ps = conn.prepareStatement(sql);
@@ -70,19 +66,15 @@ public class Dao<Users> {
 		return rowNum;
 	}
 
-
 	/**
 	 * ユーザ削除
 	 * @param user
 	 * @return int
 	 * @throws SQLException
 	 */
-
 	public int Delete(String user) throws SQLException {
-
 		String sql = "delete from t_user where user_name = ?";
 		int rowNum = 0;
-
 		try (
 				Connection conn = this.getConnection();
 				PreparedStatement ps = conn.prepareStatement(sql);
@@ -103,19 +95,14 @@ public class Dao<Users> {
 	 * @throws SQLException
 	 */
 	public User userLogin(User user) throws SQLException, ClassNotFoundException {
-
-
 		String sql = "select user_name, mail, passwd, admin from t_user where mail = ? && passwd = ?";
-
 		User loginUser = new User();
-
 		try (
 				Connection conn = this.getConnection();
 				PreparedStatement ps = conn.prepareStatement(sql);
 			) {
 			ps.setString(1, user.getEmail());
 			ps.setString(2, user.getPasswd());
-
 			try (ResultSet rs = ps.executeQuery();) {
 				if (rs.next()) {
 					loginUser.setUserName(rs.getString("user_name"));
@@ -139,10 +126,8 @@ public class Dao<Users> {
 	 * @throws ClassNotFoundException
 	 */
 	public int insertComment(Comment comment) throws SQLException, ClassNotFoundException {
-
 		String sql = "insert into t_comment(user_name, comment) values(?, ?)";
 		int rowNum;
-
 		try (
 				Connection conn = this.getConnection();
 				PreparedStatement ps = conn.prepareStatement(sql);
@@ -163,10 +148,8 @@ public class Dao<Users> {
 	 * @throws ClassNotFoundException
 	 */
 	public int deleteComment(int id) throws SQLException, ClassNotFoundException {
-
 		String sql = "delete from t_comment where id = ?";
 		int rowNum;
-
 		try (
 				Connection conn = this.getConnection();
 				PreparedStatement ps = conn.prepareStatement(sql);
@@ -207,7 +190,6 @@ public class Dao<Users> {
 		return ret;
 	}
 
-
 	/**
 	 * コメント編集
 	 * @param comment
@@ -216,10 +198,8 @@ public class Dao<Users> {
 	 * @throws SQLException
 	 */
 	public int editComment(Comment comment) throws ClassNotFoundException, SQLException {
-
 		String sql = "update t_comment set comment = ? where id = ?";
 		int rowNum;
-
 		try (
 				Connection conn = this.getConnection();
 				PreparedStatement ps = conn.prepareStatement(sql);
@@ -232,7 +212,6 @@ public class Dao<Users> {
 		return rowNum;
 	}
 
-
 	/**
 	 * コメント全件取得
 	 * @return List<Comment>
@@ -240,10 +219,8 @@ public class Dao<Users> {
 	 * @throws SQLException
 	 */
 	public List<Comment> fetchAllComment() throws ClassNotFoundException, SQLException {
-
 		String sql = "select * from t_comment";
 		List<Comment> commentList = new ArrayList<Comment>();
-
 		try (
 				Connection conn = this.getConnection();
 				PreparedStatement ps = conn.prepareStatement(sql);
@@ -263,12 +240,15 @@ public class Dao<Users> {
 		return commentList;
 	}
 
-	//ユーザ一覧
+	/**
+	 * ユーザ一覧
+	 * @return
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public List<User> fetchAllUser() throws ClassNotFoundException, SQLException {
-
 		String sql = "select * from t_user";
 		List<User> UserList = new ArrayList<User>();
-
 		try (
 				Connection conn = this.getConnection();
 				PreparedStatement ps = conn.prepareStatement(sql);
@@ -284,5 +264,25 @@ public class Dao<Users> {
 
 		return UserList;
 	}
-
+	
+	/**
+	 * 
+	 * @param userName
+	 */
+	public void deleteUserComment(String userName) {
+		String sql = "delete from t_comment where user_name = ?";
+		try (
+				Connection conn = this.getConnection();
+				PreparedStatement ps = conn.prepareStatement(sql);
+			) {
+			ps.setString(1, userName);
+			ps.executeUpdate();
+		} catch (ClassNotFoundException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
+	}
 }

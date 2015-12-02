@@ -43,10 +43,10 @@ public class BBS extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");
-
 		
 		if (request.getParameter("submit") != null) {
 			System.out.println(request.getParameter("comment"));
@@ -57,7 +57,7 @@ public class BBS extends HttpServlet {
 				comment.setUserName(request.getParameter("userName"));
 				comment.setComment(request.getParameter("comment"));
 				try {
-					int ret = Dao.getInstance().insertComment(comment);
+					Dao.getInstance().insertComment(comment);
 					request.setAttribute("msg", "コメントを登録しました");
 				} catch (ClassNotFoundException | SQLException | NamingException e) {
 					e.printStackTrace();
@@ -74,11 +74,13 @@ public class BBS extends HttpServlet {
 		else if(request.getParameter("deleteBtn") != null){
 			
 			int id = Integer.parseInt(request.getParameter("comment_id"));
-			Dao dao = new Dao();
 			try {
-					int rowNum = dao.deleteComment(id);
+					Dao.getInstance().deleteComment(id);
 					request.setAttribute("msg", "コメントを削除しました");
 			} catch (ClassNotFoundException | SQLException e) {
+				// TODO 自動生成された catch ブロック
+				e.printStackTrace();
+			} catch (NamingException e) {
 				// TODO 自動生成された catch ブロック
 				e.printStackTrace();
 			}
@@ -86,9 +88,7 @@ public class BBS extends HttpServlet {
 			RequestDispatcher disp = request.getRequestDispatcher("bbs.jsp");
 			response.setContentType("text/html; charset=UTF-8");
 			disp.forward(request, response);
-
 		}
-		
 		
 		//管理者側のdelete処理（チェックボックス）
 		else if(request.getParameter("deleteSeleBtn") != null){
@@ -105,14 +105,16 @@ public class BBS extends HttpServlet {
 				for(int i=0;i<delete.length;i++){
 					deleteNo.add(Integer.parseInt(delete[i]));
 				}	
-				Dao dao = new Dao();
 				try {
-					boolean fl = dao.deleteSelect(deleteNo);
+					boolean fl = Dao.getInstance().deleteSelect(deleteNo);
 					request.setAttribute("msg", "コメントを削除しました");	
 				} catch (ClassNotFoundException e) {
 					// TODO 自動生成された catch ブロック
 					e.printStackTrace();
 				} catch (SQLException e) {
+					// TODO 自動生成された catch ブロック
+					e.printStackTrace();
+				} catch (NamingException e) {
 					// TODO 自動生成された catch ブロック
 					e.printStackTrace();
 				}			

@@ -104,8 +104,7 @@
 		<form action="Bbs" method="POST">
 			<div class="form-group">
 				<label for="InputEmail">コメント</label>
-				<textarea class="form-control" id="comment" name="comment">
-				</textarea>
+				<textarea class="form-control" id="comment" name="comment" ></textarea>
 			</div>
 			<input type="hidden" name="userName" value="<%=((User)session.getAttribute("logUser")).getUserName()%>">
 			<button type="submit" name="submit" class="btn btn-primary">書き込む</button>

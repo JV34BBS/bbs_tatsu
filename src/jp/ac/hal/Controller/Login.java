@@ -46,16 +46,12 @@ public class Login extends HttpServlet {
 		// TODO Auto-generated method stub
 		
 		request.setCharacterEncoding("UTF-8");
-		
 		String email = request.getParameter("email");
 		String pass = request.getParameter("pass");
-		
 		String msg = "";
-		
 		User user = new User();
 		user.setEmail(email);
 		user.setPasswd(pass);
-		
 		String err = Utils.loginValidator(email, pass);
 		
 		if (err == null || err.isEmpty()) {
@@ -63,7 +59,6 @@ public class Login extends HttpServlet {
 			HttpSession session = request.getSession();
 			
 			try {
-				
 				User logUser = Dao.getInstance().userLogin(user);
 				if (logUser != null) {
 					//ユーザ情報をセッションに格納
@@ -75,7 +70,6 @@ public class Login extends HttpServlet {
 					else {
 						request.getRequestDispatcher("bbs.jsp").forward(request, response);
 					}
-					
 				}
 				else {
 					msg = "ログインに失敗しました";

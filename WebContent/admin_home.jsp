@@ -34,7 +34,7 @@
 		
 
 		<a class="btn btn-primary" href="admin.jsp" ><i class="glyphicon glyphicon-cog"></i>ユーザ管理</a>
-		<a class="btn btn-primary" href="bbs.jsp" role="button">コメント管理</a>
+		<a class="btn btn-primary" href="bbs.jsp" role="button"><i class="glyphicon glyphicon-cog"></i>コメント管理</a>
 		
 		
 		

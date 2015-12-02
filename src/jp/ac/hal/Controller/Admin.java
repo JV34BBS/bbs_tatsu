@@ -44,7 +44,8 @@ public class Admin extends HttpServlet {
 		@SuppressWarnings("rawtypes")
 		Dao dao = new Dao();
 		try {
-			int i = dao.Delete(user);
+			dao.deleteUserComment(user);
+			dao.Delete(user);
 			String msg = "ユーザを削除しました。";
 			request.setAttribute("msg", msg);
 		} catch (SQLException e) {
